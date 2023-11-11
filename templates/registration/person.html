@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  {{ form }}
+{% csrf_token %}
+<a href="{% url 'logout' %}">Logout</a>
+
+
+{% endblock %}
