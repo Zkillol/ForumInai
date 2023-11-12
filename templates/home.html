@@ -11,4 +11,19 @@
         <a href="{% url 'login' %}">Login</a> |
         <a href="{%  url 'register' %}">Register</a>
     {% endif %}
+
+
+    {% if tasks  %}
+         {% for i in tasks %}
+        <div class="alert alert-warning mt-2">
+            <h3>{{ i.title }}</h3>
+            <p>{{ i.description }}</p>
+            <img src="{{ i.image.url }}">
+
+        </div>
+        {% endfor %}
+    {% else %}
+            <p>У нас нет записей!</p>
+    {% endif %}
+
 {% endblock %}

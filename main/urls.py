@@ -6,7 +6,7 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
+    path('', include('home.urls')),
     path('' , TemplateView.as_view(template_name ='home.html' ) , name ='home'),
     path('registration/' , include('registration.urls'))
 ]+static(settings.STATIC_URL , document_root=settings.STATIC_ROOT)\
