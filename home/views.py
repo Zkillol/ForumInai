@@ -14,9 +14,13 @@ def home(request):
 def create(request):
     error = ''
     if request.method == 'POST':
-        form = PostForm(request.POST)
-        form.save()
-        return redirect('home')
+        form = PostForm(request.POST , request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+        else:
+            error ='Форма была неверной'
+
 
     form = PostForm()
     context = {
