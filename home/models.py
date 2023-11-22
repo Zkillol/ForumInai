@@ -1,23 +1,26 @@
 from django.db import models
-
+from django.utils import timezone
+from django.conf import settings
+from registration.models import User
 
 class Posts(models.Model):
-    title = models.CharField( 'Название',max_length=50)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, related_name="posts",
+        on_delete=models.DO_NOTHING, default=1
+    )
+    title = models.CharField('Название', max_length=50)
     description = models.TextField('Описание')
-    image = models.ImageField(upload_to='posts/' , null=True)
+    image = models.ImageField(upload_to='posts/', null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+    likes = models.ManyToManyField(User, related_name="post_like", blank=True)
 
-
-
+    def number_of_likes(self):
+        return self.likes.count()
 
     def __str__(self):
         return self.title
 
     class Meta:
-        verbose_name = 'Задача'
-        verbose_name_plural = 'Задачи'
+        verbose_name = 'Пост'
+        verbose_name_plural = 'Посты'
 
-class LikesPost(models.Model):
-    likes = models.PositiveIntegerField(null=False)
-
-class CommentsPost(models.Model):
-    comments = models.CharField('Написать комментарий ', max_length=250, null=True)

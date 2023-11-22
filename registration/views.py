@@ -1,15 +1,15 @@
-from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from registration.forms import UserCreationForm
 from django.views import View
-from . import models
+from django.contrib.auth import get_user_model
 
+User = get_user_model()
 
 
 def person_view(request):
 
-    return render(request , 'registration/person.html' , )
+    return render(request, 'registration/person.html' , )
 
 
 class Register(View):
@@ -20,7 +20,7 @@ class Register(View):
         context = {
             'form': UserCreationForm()
         }
-        return render(request , self.template_name, context)
+        return render(request, self.template_name, context)
     def post(self, request):
         form = UserCreationForm(request.POST)
 
@@ -28,11 +28,13 @@ class Register(View):
             form.save()
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
-            user = authenticate(username= username, password= password)
+            user = authenticate(username=username, password=password)
             login(request, user)
+
+
             return redirect('home')
         context = {
-            'form' : form
+            'form': form
         }
-        return render(request , self.template_name, context)
+        return render(request, self.template_name, context)
 
