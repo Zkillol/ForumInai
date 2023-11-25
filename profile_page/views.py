@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django import forms
 from .models import Profile
@@ -10,7 +10,8 @@ from registration.models import User
 
 def profile(request, id):
     if request.user.is_authenticated:
-        profile = Profile.objects.get(user_id=id)
+        # profile = Profile.objects.get(user_id=id)
+        profile = get_object_or_404(Profile, id=id)
         posts = Posts.objects.filter(user_id=id).order_by("created_at")
         return render(request, 'profile/profile.html', {"profile": profile, "posts": posts})
     else:
@@ -19,25 +20,31 @@ def profile(request, id):
 
 
 
-def update_user(request):
-    if request.user.is_authenticated:
-        current_user = User.objects.get(id=request.user.id)
-        profile_user = Profile.objects.get(user__id=request.user.id)
+def update_user(request, pk):
+    # Use get_object_or_404 to retrieve the Profile object or raise a 404 error
+    profile_user = get_object_or_404(Profile, user__id=pk)
 
-        if request.method == 'POST':
-            user_form = UserCreationForm(request.POST, instance=current_user)
-            profile_form = ProfilePicForm(request.POST or None, request.FILES or None, instance=profile_user)
-            if user_form.is_valid() and profile_form.is_valid():
-                user = user_form.save()
-                profile = profile_form.save(commit=False)
-                profile.user = user
-                profile.save()
+    if request.method == 'POST':
+        user_form = UserCreationForm(request.POST, instance=request.user)
+        profile_form = ProfilePicForm(request.POST, request.FILES, instance=profile_user)
 
-                login(request, current_user)
-                messages.success(request, ("Your Profile Has Been Updated!"))
-                return redirect('profile')
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save()
+            profile = profile_form.save(commit=False)
+            profile.user = user
+            profile.save()
 
-        return render(request, "profile/update_user.html", { 'profile_form': profile_form})
+            login(request, user)
+            messages.success(request, "Your Profile Has Been Updated!")
+            return redirect('profile')
+
     else:
-        messages.success(request, ("You Must Be Logged In To View That Page..."))
-        return redirect('home')
+        # If it's a GET request, create the forms
+        user_form = UserCreationForm(instance=request.user)
+        profile_form = ProfilePicForm(instance=profile_user)
+
+    return render(
+        request,
+        "profile/update_user.html",
+        {'user_form': user_form, 'profile_form': profile_form}
+    )

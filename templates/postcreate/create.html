@@ -1,18 +1,25 @@
-<{% extends 'base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}
 Создать таск
 {% endblock %}
 
 {% block content %}
-    <h1>Cоздать пост</h1>
+    <h1>Cоздать таск</h1>
     <form method="post"  enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.title }}<br>
         {{ form.description }}<br>
         {{ form.image }}
+          {% if user.is_authenticated %}
 
-        <button type="submit" class="btn btn-success">Добавить задачу</button>
+        <button type="submit" class="btn btn-success" onclick="">Добавить задачу</button>
+         {% else %}
+        <p>Вы не зарегистрированы или не вошли в аккаунт</p>
+        <a href="{%  url 'register' %}">Register</a> |
+        <a href="{% url 'login' %}">Login</a>
+
+        {% endif %}
         <span>{{ error }}</span>
 
     </form>

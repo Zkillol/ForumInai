@@ -8,7 +8,6 @@ User = get_user_model()
 
 
 def person_view(request):
-
     return render(request, 'registration/person.html' , )
 
 

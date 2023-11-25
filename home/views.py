@@ -6,7 +6,7 @@ from .models import Posts
 from .forms import PostForm
 
 def home(request):
-    posts = Posts.objects.order_by('-id')[:5]
+    posts = Posts.objects.order_by('-id')
     return render(request, 'home.html',{'title': 'Главная страница сайта', 'posts': posts})
 
 def logout_user(request):
@@ -16,24 +16,20 @@ def logout_user(request):
 
 
 def create(request):
-    error = ''
     if request.method == 'POST':
-        form = PostForm(request.POST, request.FILES)
+        form = PostForm(request.POST)
         if form.is_valid():
-            form.save()
+            post = form.save(commit=False)
+            post.user = request.user  # Присваиваем текущего пользователя
+            post.save()
             return redirect('home')
-        else:
-            error ='Форма была неверной'
+    else:
+        form = PostForm()
 
-
-    form = PostForm()
     context = {
         'form': form,
-        'error': error
     }
     return render(request, 'postcreate/create.html', context)
-
-
 def post_like(request, id):
     if request.user.is_authenticated:
         post = get_object_or_404(Posts, id=id)
