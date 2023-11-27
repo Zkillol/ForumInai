@@ -5,14 +5,16 @@ from django.contrib.auth import logout
 from .models import Posts
 from .forms import PostForm
 
+
 def home(request):
     posts = Posts.objects.order_by('-id')
-    return render(request, 'home.html',{'title': 'Главная страница сайта', 'posts': posts})
+    return render(request, 'home.html', {'title': 'Главная страница сайта', 'posts': posts})
+
 
 def logout_user(request):
-	logout(request)
-	messages.success(request, ("You Have Been Logged Out. Sorry to Meep You Go..."))
-	return redirect('home')
+    logout(request)
+    messages.success(request, ("You Have Been Logged Out. Sorry to Meep You Go..."))
+    return redirect('home')
 
 
 def create(request):
@@ -30,6 +32,8 @@ def create(request):
         'form': form,
     }
     return render(request, 'postcreate/create.html', context)
+
+
 def post_like(request, id):
     if request.user.is_authenticated:
         post = get_object_or_404(Posts, id=id)
@@ -70,4 +74,3 @@ def delete_post(request, id):
     else:
         messages.success(request, ("Please Log In To Continue..."))
         return redirect(request.META.get("HTTP_REFERER"))
-
