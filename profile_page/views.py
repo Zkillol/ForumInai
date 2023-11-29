@@ -11,7 +11,7 @@ from registration.models import User
 def profile(request, id):
     if request.user.is_authenticated:
         # profile = Profile.objects.get(user_id=id)
-        profile = get_object_or_404(Profile, id=id)
+        profile = get_object_or_404( Profile , user_id=id)
         posts = Posts.objects.filter(user_id=id).order_by("created_at")
         return render(request, 'profile/profile.html', {"profile": profile, "posts": posts})
     else:

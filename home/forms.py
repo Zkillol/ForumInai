@@ -14,7 +14,7 @@ class PostForm(ModelForm):
                 }),
                 'description': Textarea(attrs={
                 'class': 'form-control',
-                'placeholder': 'Введите описание'
+                 'placeholder': 'Введите описание'
                 }),
         }
         exclude = ("user", "likes",)

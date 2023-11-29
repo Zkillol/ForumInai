@@ -6,7 +6,28 @@
     <hr>
 
     <form action="{% url 'register' %}" method="post">
-        {{ form }}
+        <div class="form-group">
+      <label for="{{ form.username.id_for_label }}">Username:</label>
+      {{ form.username }}
+    </div>
+        <br>
+
+    <div class="form-group">
+      <label for="{{ form.email.id_for_label }}" >Email:</label>
+      {{ form.email }}
+    </div>
+        <br>
+    <div class="form-group">
+      <label for="{{ form.password1.id_for_label }}">Password:</label>
+      {{ form.password1 }}
+    </div>
+         <br>
+
+    <div class="form-group">
+      <label for="{{ form.password2.id_for_label }}">Password confirmation:</label>
+      {{ form.password2 }}
+    </div>
+         <br>
         {% csrf_token %}
         <button type="submit" class="btn btn-success">Submit</button>
     </form>

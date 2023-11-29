@@ -10,7 +10,7 @@ class Profile(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
     )
-
+    id = models.AutoField(primary_key=True)
     date_modified = models.DateTimeField(auto_now=True)
     profile_image = models.ImageField(null=True, blank=True, upload_to="images/")
     profile_bio = models.CharField(max_length=500, null=True)

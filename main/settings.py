@@ -13,7 +13,7 @@ SECRET_KEY = 'django-insecure-m+@$tl)d_$10q+o&ousrd6jp9rnxj^-0!va!x7b$(9h07k)-0(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 AUTH_USER_MODEL = 'registration.User'
 LOGIN_REDIRECT_URL = '/'
@@ -24,6 +24,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Application definition
 
 INSTALLED_APPS = [
+    'profile_page',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -32,7 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'registration',
     'home',
-    'profile_page',
+
 ]
 
 MIDDLEWARE = [
