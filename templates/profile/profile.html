@@ -1,12 +1,37 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+
 <div class="container">
     <div>
 
         <h1>{{ profile.user.username }}'s Profile </h1>
     <a href="{% url 'update_user' pk=user.id %}">Update User</a>
 
+<div class="col-4">
+
+{% if post.user.profile.profile_image %}
+								<img src="{{ post.user.profile.profile_image.url }}" style="border-radius:50%; width: 500px; height: 500px;
+                                              object-fit: cover;"  alt="{{ profile.user.username }}">
+                                {% else %}
+                                <img src="{% static 'images/default_profile_pic.png' %}"  style="border-radius:50%; width: 500px; height: 500px;
+                                              object-fit: cover;" alt="{{ profile.user.username }}">
+								{% endif %}
+				<br/><br/>
+	</div>
+<div class="col-4">
+{% if profile.profile_bio %}
+	<p align="justify">
+		{{profile.profile_bio }}
+	</p>
+	<p> Registrated on {{ profile.date_modified }}</p>
+{% endif %}
+</div>
+<div class="col-4">
+    {% if request.user.id == profile.user.id %}
+		<a href="{% url 'update_user' %}" class="btn btn-outline-secondary">Update Profile</a>
+	{% endif %}
+</div>
         <br/>
 
         {% if posts %}
@@ -18,9 +43,11 @@
 		    <div class="row">
 			    <div class="col-1">
                     {% if profile.profile_image %}
-                    <img src="{{ profile.profile_image.url }}"class="rounded-circle" >
+                    <img src="{{ profile.profile_image.url }}" style="border-radius:50%; width: 70px; height: 70px;
+                                              object-fit: cover;" >
                     {% else %}
-                    <img src="{% static 'images/default_profile_pic.png' %}" width=50 height=50 class="rounded-circle" alt="{{ profile.user.username }}">
+                    <img src="{% static 'images/default_profile_pic.png' %}" style="border-radius:50%; width: 70px; height: 70px;
+                                              object-fit: cover;" alt="{{ profile.user.username }}">
                     {% endif %}
                 </div>
                 <div class="col-11">
@@ -59,26 +86,6 @@
 
 </div>
 
-<div class="col-4">
-
-{% if profile.profile_image %}
-				<img src="{{ profile.profile_image.url }}" class="rounded-circle">
-				<br/><br/>
-				{% endif %}
-	</div>
-<div class="col-4">
-{% if profile.profile_bio %}
-	<p align="justify">
-		{{profile.profile_bio }}
-	</p>
-	<p> Registrated on {{ profile.date_modified }}</p>
-{% endif %}
-</div>
-<div class="col-4">
-    {% if request.user.id == profile.user.id %}
-		<a href="{% url 'update_user' %}" class="btn btn-outline-secondary">Update Profile</a>
-	{% endif %}
-</div>
 
 
 {% endblock %}

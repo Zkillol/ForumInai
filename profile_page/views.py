@@ -39,7 +39,6 @@ def update_user(request, pk):
             return redirect('profile')
 
     else:
-        # If it's a GET request, create the forms
         user_form = UserCreationForm(instance=request.user)
         profile_form = ProfilePicForm(instance=profile_user)
 

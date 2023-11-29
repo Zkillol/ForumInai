@@ -13,7 +13,7 @@ def home(request):
 
 def logout_user(request):
     logout(request)
-    messages.success(request, ("You Have Been Logged Out. Sorry to Meep You Go..."))
+    messages.success(request, ("You Have Been Logged Out..."))
     return redirect('home')
 
 
