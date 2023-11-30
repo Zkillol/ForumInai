@@ -27,11 +27,13 @@
                                 ({{ post.created_at}}) By
                                 @{{ post.user.username }}
                                 - {{ post.number_of_likes }} Likes -
-
+                                   <button><a href="/update/{{i.id}}">Update post</a></button>
+                                    <button><a href="/delete_post/{{i.id}}">Delete post</a></button>
                                 {% if user in post.likes.all %}
                                   <a href="{% url 'post_like' post.id %}">
                                       <i class="fa-solid fa-heart" style="color:red"></i>
                                   </a>
+
                                 {% else %}
                                     <a href="{% url 'post_like' post.id %}">
                               <i class="fa fa-heart-o" style="color:red"></i>
@@ -41,6 +43,7 @@
                                   {% if request.user.username == profile.user.username %}
                                 &nbsp;&nbsp;
                     <a href="{% url 'delete_post' post.id %}"><i class="fa fa-trash" style="color:gray"></i></a>
+
                             &nbsp;&nbsp;
                     {% endif %}
 

@@ -33,25 +33,44 @@ def create(request):
     }
     return render(request, 'postcreate/create.html', context)
 
+def update(request, id):
+    if request.user.is_authenticated:
+
+        form = PostForm
+
+        post = Posts.objects.get(id=id)
+
+        if request.method == 'POST':
+            form = PostForm(request.POST, request.FILES, instance=post)
+            if form.is_valid():
+                form.save()
+                return redirect('home')
+        return render(request, 'post_detail_CRUD/update.html', {"form": form})
+    else:
+        messages.success(request, ("Please Log In To Continue..."))
+        return redirect(request.META.get("HTTP_REFERER"))
+
+
 
 def post_like(request, id):
     if request.user.is_authenticated:
         post = get_object_or_404(Posts, id=id)
-        if post.likes.filter(id=request.user.id):
-            post.likes.remove(request.user)
-        else:
-            post.likes.add(request.user)
+        if request.user.username == post.user.username:
+            if post.likes.filter(id=request.user.id):
+                post.likes.remove(request.user)
+            else:
+                post.likes.add(request.user)
 
-        return redirect(request.META.get("HTTP_REFERER"))
-    else:
-        messages.success(request, ("You Must Be Logged In To View That Page..."))
-        return redirect('home')
+            return redirect(request.META.get("HTTP_REFERER"))
+        else:
+            messages.success(request, ("You Must Be Logged In To View That Page..."))
+            return redirect('home')
 
 
 def post_show(request, id):
     post = get_object_or_404(Posts, id=id)
     if post:
-        return render(request, "post_details.html", {'post': post})
+        return render(request, "post_detail_CRUD/post_details.html", {'post': post})
     else:
         messages.success(request, ("That Meep Does Not Exist..."))
         return redirect('home')

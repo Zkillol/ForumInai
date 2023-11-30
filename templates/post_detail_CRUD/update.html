@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Создать таск
+{% endblock %}
+
+{% block content %}
+ {% if user.is_authenticated %}
+    <h1>Изменить задачу</h1>
+    <form method="post" class="create-form"  enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit" class="btn btn-success" onclick="">Изменить задачу</button>
+         {% else %}
+        <p>Вы не зарегистрированы или не вошли в аккаунт</p>
+        <a href="{%  url 'register' %}">Register</a> |
+        <a href="{% url 'login' %}">Login</a>
+
+        {% endif %}
+        <span>{{ error }}</span>
+
+    </form>
+{% endblock %}
