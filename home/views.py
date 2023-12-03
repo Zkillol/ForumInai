@@ -31,7 +31,7 @@ def create(request):
     context = {
         'form': form,
     }
-    return render(request, 'postcreate/create.html', context)
+    return render(request, 'post_detail_CRUD/create.html', context)
 
 def update(request, id):
     if request.user.is_authenticated:
@@ -76,20 +76,20 @@ def post_show(request, id):
         return redirect('home')
 
 
+
 def delete_post(request, id):
     if request.user.is_authenticated:
         post = get_object_or_404(Posts, id=id)
-        # Check to see if you own the meep
+
+        # Check if the authenticated user owns the post
         if request.user.username == post.user.username:
-            # Delete The Meep
+            # Delete the post
             post.delete()
-
-            messages.success(request, ("The Post Has Been Deleted!"))
-            return redirect(request.META.get("HTTP_REFERER"))
-        else:
-            messages.success(request, ("You Don't Own That Meep!!"))
+            messages.success(request, "The Post Has Been Deleted!")
             return redirect('home')
-
+        else:
+            messages.error(request, "You Don't Own That Post!!")
+            return redirect('home')
     else:
-        messages.success(request, ("Please Log In To Continue..."))
-        return redirect(request.META.get("HTTP_REFERER"))
+        messages.error(request, "Please Log In To Continue...")
+        return redirect('home')

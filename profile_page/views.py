@@ -1,3 +1,4 @@
+from django.contrib.auth.forms import UserChangeForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django import forms
@@ -21,11 +22,10 @@ def profile(request, id):
 
 
 def update_user(request, id):
-    # Используйте get_object_or_404 для извлечения объекта профиля или вызова ошибки 404
-    profile_user = get_object_or_404(Profile, user__id=id)
+    profile_user = get_object_or_404(Profile, user_id=id)
 
     if request.method == 'POST':
-        user_form = UserCreationForm(request.POST, instance=request.user)
+        user_form = UserChangeForm(request.POST, instance=request.user)
         profile_form = ProfilePicForm(request.POST, request.FILES, instance=profile_user)
 
         if user_form.is_valid() and profile_form.is_valid():
@@ -39,7 +39,7 @@ def update_user(request, id):
             return redirect('profile')
 
     else:
-        user_form = UserCreationForm(instance=request.user)
+        user_form = UserChangeForm(instance=request.user)
         profile_form = ProfilePicForm(instance=profile_user)
 
     return render(
