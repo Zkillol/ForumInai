@@ -9,9 +9,9 @@ from django.contrib.auth import login, logout
 from registration.models import User
 
 def profile(request, id):
+
     if request.user.is_authenticated:
-        # profile = Profile.objects.get(user_id=id)
-        profile = get_object_or_404( Profile , user_id=id)
+        profile = get_object_or_404(Profile , user_id=id)
         posts = Posts.objects.filter(user_id=id).order_by("created_at")
         return render(request, 'profile/profile.html', {"profile": profile, "posts": posts})
     else:
@@ -20,9 +20,9 @@ def profile(request, id):
 
 
 
-def update_user(request, pk):
-    # Use get_object_or_404 to retrieve the Profile object or raise a 404 error
-    profile_user = get_object_or_404(Profile, user__id=pk)
+def update_user(request, id):
+    # Используйте get_object_or_404 для извлечения объекта профиля или вызова ошибки 404
+    profile_user = get_object_or_404(Profile, user__id=id)
 
     if request.method == 'POST':
         user_form = UserCreationForm(request.POST, instance=request.user)
@@ -32,7 +32,7 @@ def update_user(request, pk):
             user = user_form.save()
             profile = profile_form.save(commit=False)
             profile.user = user
-            profile.save()
+            profile_form.save()
 
             login(request, user)
             messages.success(request, "Your Profile Has Been Updated!")
