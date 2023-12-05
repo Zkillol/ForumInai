@@ -21,29 +21,31 @@ def profile(request, id):
 
 
 
+
+
 def update_user(request, id):
     profile_user = get_object_or_404(Profile, user_id=id)
 
+
     if request.method == 'POST':
-        user_form = UserChangeForm(request.POST, instance=request.user)
+
         profile_form = ProfilePicForm(request.POST, request.FILES, instance=profile_user)
 
-        if user_form.is_valid() and profile_form.is_valid():
-            user = user_form.save()
-            profile = profile_form.save(commit=False)
-            profile.user = user
-            profile_form.save()
+        if profile_form.is_valid():
 
-            login(request, user)
+            profile = profile_form.save(commit=False)
+            profile.user = request.user
+            profile.save()
+            login(request, request.user)
             messages.success(request, "Your Profile Has Been Updated!")
-            return redirect('profile')
+            return redirect('profile',  id=id)
 
     else:
-        user_form = UserChangeForm(instance=request.user)
+
         profile_form = ProfilePicForm(instance=profile_user)
 
     return render(
         request,
         "profile/update_user.html",
-        {'user_form': user_form, 'profile_form': profile_form}
+        { 'profile_form': profile_form}
     )

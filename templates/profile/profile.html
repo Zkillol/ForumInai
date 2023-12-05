@@ -7,17 +7,16 @@
 
         <h1>{{ profile.user.username }}'s Profile </h1>
 
-<div class="col-4">
+	<div class="col-4">
 
-{% if post.user.profile.profile_image %}
-								<img src="{{ post.user.profile.profile_image.url }}" style="border-radius:50%; width: 500px; height: 500px; object-fit: cover;" alt="{{ profile.user.username }}">
-
-                                {% else %}
-                                <img src="{% static 'images/default_profile_pic.png' %}"  style="border-radius:50%; width: 500px; height: 500px;
-                                              object-fit: cover;" alt="{{ profile.user.username }}">
-								{% endif %}
-				<br/><br/>
-	</div>
+	{% if  profile.profile_image %}
+		<img src="{{ profile.profile_image.url }}" style="border-radius:50%; width: 500px; height: 500px; object-fit: cover;" >
+	{% else %}
+		<img src="{% static 'images/default_profile_pic.png'%}"  style="border-radius:50%; width: 500px; height: 500px;
+												  object-fit: cover;" alt="{{ profile.user.username }}">
+	{% endif %}
+					<br/><br/>
+		</div>
 <div class="col-4">
 {% if profile.profile_bio %}
 	<p align="justify">
