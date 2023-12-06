@@ -33,7 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'registration',
     'home',
-
+    'search',
 ]
 
 MIDDLEWARE = [

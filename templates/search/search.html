@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+<h1>Search posts</h1>
+
+<form method="GET" action="{% url 'search' %}">
+    <input type="text" name="q" placeholder="Search...">
+    <button type="submit">Search</button>
+</form>
+
+{% if query %}
+    <h3>Search results by : "{{ query }}"</h3>
+{% endif %}
+
+{% if results %}
+    <ul>
+        {% for post in results %}
+
+                <div class="alert alert-dark" role="alert">
+                    <div class="container">
+                        <div class="row">
+							<div class="col-1">
+								{% if post.user.profile.profile_image %}
+								<img src="{{ post.user.profile.profile_image.url }}" style="border-radius:50%; width: 70px; height: 70px;
+                                              object-fit: cover;"  alt="{{ profile.user.username }}">
+                                {% else %}
+                                <img src="{% static 'images/default_profile_pic.png' %}"  style="border-radius:50%; width: 70px; height: 70px;
+                                              object-fit: cover;" alt="{{ profile.user.username }}">
+								{% endif %}
+							</div>
+							<div class="col-11">
+								<h3>{{post.title}}</h3>
+								{{post.description}}
+								<br/>
+								<img src="{{post.image.url}}" alt=""> <br>
+										<small class="text-muted">
+											({{ post.created_at}}) By <a href="{% url 'profile' id=post.user.id %}"><i class="fi fi-sr-user"></i> {{ post.user.username }} </a>
+								- {{ post.number_of_likes }} Likes -
+
+								{% if user in post.likes.all %}
+								  <a href="{% url 'post_like' post.id %}"><i class="fa-solid fa-heart" style='color:red'></i></a>
+								{% else %}
+									<a href="{% url 'post_like' post.id %}"><i class="fa fa-heart-o" style="color:red"></i></a>
+								{% endif %}
+
+							  	&nbsp;<a href="{% url 'post_show' post.id %}"><i class="fa-solid fa-share" style="color:gray"></i></a>
+
+
+			                    {% if request.user.username == profile.user.username %}
+			                                &nbsp;&nbsp;
+			                    <a href="{% url 'delete_post' post.id %}"><i class="fa fa-trash" style="color:gray"></i></a>
+			                            &nbsp;&nbsp;
+			                    <a href="{% url 'edit_post' post.id %}"><i class="fa fa-edit" style="color:gray"></i></a>
+			                    {% endif %}
+
+			  							</small>
+							</div><br/><br/>
+						</div>
+					</div>
+				</div>
+
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Nothing was found</p>
+{% endif %}
+
+{% endblock %}
