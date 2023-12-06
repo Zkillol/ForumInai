@@ -28,6 +28,8 @@
 <div class="col-4">
     {% if request.user.id == profile.user.id %}
 		<a href="{% url 'update_user'  id=profile.user.id %}" class="btn btn-outline-secondary">Update Profile</a>
+        <a href="{% url 'logout_user' %}" class="btn btn-outline-secondary">Logout</a>
+
 	{% endif %}
 </div>
         <br/>

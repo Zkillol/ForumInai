@@ -55,16 +55,15 @@ def update(request, id):
 def post_like(request, id):
     if request.user.is_authenticated:
         post = get_object_or_404(Posts, id=id)
-        if request.user.username == post.user.username:
-            if post.likes.filter(id=request.user.id):
-                post.likes.remove(request.user)
-            else:
-                post.likes.add(request.user)
-
-            return redirect(request.META.get("HTTP_REFERER"))
+        if post.likes.filter(id=request.user.id):
+            post.likes.remove(request.user)
         else:
-            messages.success(request, ("You Must Be Logged In To View That Page..."))
-            return redirect('home')
+            post.likes.add(request.user)
+
+        return redirect(request.META.get("HTTP_REFERER"))
+    else:
+        messages.success(request, ("You Must Be Logged In To View That Page..."))
+        return redirect('home')
 
 
 def post_show(request, id):
