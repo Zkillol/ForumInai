@@ -24,11 +24,13 @@
                                 <br>
 								{{post.description}}
                                 <br>
+                                {% if post.image %}
                                 <img src="{{ post.image.url }}" style="width:300px">
+                                {% endif %}
                                 <br> <br>
                               <small class="text-muted">
                                 ({{ post.created_at}}) By
-                                @{{ post.user.username }}
+                                <a href="{% url 'profile' id=post.user.id %}"><i class="fi fi-sr-user"></i> {{ post.user.username }} </a>
                                 - {{ post.number_of_likes }} Likes -
 
 
@@ -43,14 +45,12 @@
                                     </a>
                                 {% endif %}
 
-                                  {% if request.user.username == profile.user.username %}
-                                &nbsp;&nbsp;
-                    <a href="{% url 'delete_post' post.id %}"><i class="fa fa-trash" ></i></a>
 
-                            &nbsp;&nbsp;
-                    {% endif %}
-
-                              </small>
+                              </small> <br> <br>
+                                {% if request.user == post.user %}
+		<a href="/post_show/{{post.id}}/delete/" class="btn btn-outline-secondary">Удалить</a>
+                                <a href="/post_show/{{post.id}}/edit/" class="btn btn-outline-secondary">Изменить</a>
+	{% endif %}
                             </div><br/><br/>
 
 			            </div>

@@ -53,11 +53,13 @@
                 <div class="col-11">
                     <h3>{{post.title}}</h3>
                    <p> {{post.description}}</p>
+					{% if post.image %}
 					<img src="{{post.image.url}}" alt="">
+					{% endif %}
                     <br/>
 			  				<small class="text-muted">
 			  					({{ post.created_at}}) By
-			  					@{{ post.user.username }}
+			  					<a href="{% url 'profile' id=post.user.id %}"><i class="fi fi-sr-user"></i> {{ post.user.username }} </a>
 			  		- {{ post.number_of_likes }} Likes -
 
 			  		{% if user in post.likes.all %}
@@ -67,13 +69,6 @@
 				  	{% endif %}
 
 				  	&nbsp;<a href="{% url 'post_show' post.id %}"><i class="fa-solid fa-share" style="color:gray"></i></a>
-
-
-                    {% if request.user.username == profile.user.username %}
-                                &nbsp;&nbsp;
-                    <a href="{% url 'delete_post' post.id %}"><i class="fa fa-trash" style="color:gray"></i></a>
-                            &nbsp;&nbsp;
-                    {% endif %}
 
 			  				</small>
 						</div><br/><br/>

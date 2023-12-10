@@ -10,10 +10,9 @@ class Posts(models.Model):
     )
     title = models.CharField('Название', max_length=50)
     description = models.TextField('Описание')
-    image = models.ImageField(upload_to='posts/', null=True)
+    image = models.ImageField(upload_to='posts/', null=True, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
     likes = models.ManyToManyField(User, related_name="post_like", blank=True)
-    # user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def number_of_likes(self):
         return self.likes.count()

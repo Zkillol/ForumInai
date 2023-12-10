@@ -15,6 +15,18 @@
 {% endif %}
 
 {% if results %}
+<ul>
+        {% for user_profile in results.profiles %}
+            <li>
+                <h3><a href="{% url 'profile' user_profile.user.id %}">{{ user_profile.user.username }}</a></h3>
+                {% if user_profile.profile_image %}
+                    <img src="{{ user_profile.profile_image.url }}" alt="{{ user_profile.user.username }}">
+                {% endif %}
+                <p>Bio: {{ user_profile.profile_bio }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+
     <ul>
         {% for post in results %}
 
@@ -34,7 +46,9 @@
 								<h3>{{post.title}}</h3>
 								{{post.description}}
 								<br/>
-								<img src="{{post.image.url}}" alt=""> <br>
+								{% if post.image %}
+								<img src="{{post.image.url}}" alt="">
+								 {% endif %} <br>
 										<small class="text-muted">
 											({{ post.created_at}}) By <a href="{% url 'profile' id=post.user.id %}"><i class="fi fi-sr-user"></i> {{ post.user.username }} </a>
 								- {{ post.number_of_likes }} Likes -
