@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import logout
-
+from comments.forms import CommentForm
 from .models import Posts
 from .forms import PostForm
 
@@ -50,8 +50,21 @@ def post_like(request, id):
 
 def post_show(request, id):
     post = get_object_or_404(Posts, id=id)
-    if post:
-        return render(request, "post_detail_CRUD/post_details.html", {'post': post})
+    comments = post.comments.all()  # Получаем все комментарии для данного поста
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            new_comment = form.save(commit=False)
+            new_comment.user = request.user  # Устанавливаем пользователя для комментария
+            new_comment.post = post  # Связываем комментарий с постом
+            new_comment.save()
+            messages.success(request, "Комментарий успешно добавлен.")
+            return redirect('post_show', id=id)
+        else:
+            messages.error(request, "Ошибка при добавлении комментария.")
     else:
-        messages.success(request, ("That Post Does Not Exist..."))
-        return redirect('home')
+        form = CommentForm()
+
+    return render(request, "post_detail_CRUD/post_details.html", {'post': post, 'comments': comments, 'form': form})
+
