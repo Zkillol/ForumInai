@@ -12,14 +12,16 @@
                         <div class="row">
                             <div class="col-1">
                                 {% if post.user.profile.profile_image %}
-								<img src="{{ post.user.profile.profile_image.url }}" style="border-radius:50%; width: 70px; height: 70px;
-                                              object-fit: cover;"  alt="{{ profile.user.username }}">
+                                <a href="{% url 'profile' id=post.user.id %}"><img src="{{ post.user.profile.profile_image.url }}" style="border-radius:50%; width: 70px; height: 70px;
+                                              object-fit: cover;"  alt="{{ profile.user.username }}"> </a>
                                 {% else %}
-                                <img src="{% static 'images/default_profile_pic.png' %}"  style="border-radius:50%; width: 70px; height: 70px;
-                                              object-fit: cover;" alt="{{ profile.user.username }}">
+                                <a href="{% url 'profile' id=post.user.id %}"><img src="{% static 'images/default_profile_pic.png' %}"  style="border-radius:50%; width: 70px; height: 70px;
+                                              object-fit: cover;" alt="{{ profile.user.username }}"></a>
+
 								{% endif %}
                             </div>
                             <div class="col-11">
+                                <h5 style="text-aling:start;"><a href="{% url 'profile' id=post.user.id %}" style="text-decoration: none; color:black;">{{ post.user.username }} </a></h5>
                               <h3>{{post.title}}</h3>
                                 <br>
 								{{post.description}}
@@ -29,9 +31,8 @@
                                 {% endif %}
                                 <br> <br>
                               <small class="text-muted">
-                                ({{ post.created_at}}) By
-                                <a href="{% url 'profile' id=post.user.id %}"><i class="fi fi-sr-user"></i> {{ post.user.username }} </a>
-                                - {{ post.number_of_likes }} Likes -
+                                {{ post.created_at}}
+                                  {{ post.number_of_likes }} Likes -
 
 
                                 {% if user in post.likes.all %}
@@ -81,19 +82,18 @@
                         <div class="row">
                             <div class="col-1">
                                 {% if comment.user.profile.profile_image %}
-								<img src="{{ comment.user.profile.profile_image.url }}" style="border-radius:50%; width: 70px; height: 70px;
-                                              object-fit: cover;"  alt="{{ profile.user.username }}">
+                                <a href="{% url 'profile' id=comment.user.id %}" style="text-decoration: none; color:black;"> <img src="{{ comment.user.profile.profile_image.url }}" style="border-radius:50%; width: 70px; height: 70px;
+                                              object-fit: cover;"  alt="{{ profile.user.username }}"> </a>
                                 {% else %}
-                                <img src="{% static 'images/default_profile_pic.png' %}"  style="border-radius:50%; width: 70px; height: 70px;
-                                              object-fit: cover;" alt="{{ profile.user.username }}">
+                                <a href="{% url 'profile' id=comment.user.id %}" style="text-decoration: none; color:black;"> <img src="{% static 'images/default_profile_pic.png' %}"  style="border-radius:50%; width: 70px; height: 70px;
+                                              object-fit: cover;" alt="{{ profile.user.username }}"> </a>
 								{% endif %}
                             </div>
                             <div class="col-11" style="padding-left: 40px;">
-								{{comment.content}}
-                                <br> <br>
+                                <h5><a href="{% url 'profile' id=comment.user.id %}" style="text-decoration: none; color:black;"> {{ comment.user.username }} </a></h5>
+								<p>{{comment.content}}</p>
                               <small class="text-muted">
-                                ({{ post.created_at}}) By
-                                <a href="{% url 'profile' id=comment.user.id %}"><i class="fi fi-sr-user"></i> {{ comment.user.username }} </a>
+                                {{ post.created_at}}
 
                               </small> <br> <br>
                             </div>
