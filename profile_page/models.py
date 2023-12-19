@@ -14,10 +14,9 @@ class Profile(models.Model):
     date_modified = models.DateTimeField(auto_now=True)
     profile_image = models.ImageField(null=True, blank=True, upload_to="images/")
     profile_bio = models.CharField(max_length=500, null=True)
+    friends = models.ManyToManyField('chat.Friend', related_name='my_friends')
 
 
-    def __str__(self):
-        return self.user.username
 
     class Meta:
         verbose_name = 'Аккаунт'

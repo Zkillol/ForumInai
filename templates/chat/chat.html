@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% load static %}
+    <div class="chat-container" >
+
+        <div class="main" >
+            <div class="logo" >
+                ChatMe
+            </div>
+
+
+            <div class="sub-main" >
+                <div class="main-user">
+              {% if  profile.profile_image %}
+		<img src="{{profile.profile_image.url }}" style="border-radius:50%; width: 70px; height: 70px;
+                                              object-fit: cover;"  >
+	{% endif %}
+
+                </div>
+                <p>{{ request.user.username }}</p>
+            </div>
+        </div>
+
+        <div class="header" >Messages</div>
+
+        <div class="friends-container" >
+            {% for friend in friends %}
+            <a href="{% url 'chat_view' friend.profile.id %}" style="color:black; text-decoration: none">
+                <div class="friends">
+                    <div class="pic">
+         {% if  friend.profile.profile_image %}
+		<img src="{{ friend.profile.profile_image.url }}"  style="border-radius:50%; width: 70px; height: 70px;
+                                              object-fit: cover;" >
+	{% endif %}
+       </div>
+                    <div class="name">
+                        <h5>{{friend.profile.user}}</h5>
+
+
+                    </div>
+
+
+
+
+
+                </div>
+            </a>
+            {%  endfor %}
+        </div>
+
+    </div>
+
+{% endblock %}

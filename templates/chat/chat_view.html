@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+        <h3>{{friend.profile.user}}</h3>
+
+    <div class="pro-pic">
+         {% if  friend.profile.profile_image %}
+    <img src="{{  friend.profile.profile_image.url }}" alt="profile_picture" style="border-radius:50%; width: 70px; height: 70px;
+                                              object-fit: cover;">
+        {% endif %}
+    </div>
+    </div>
+    <div class="sub-container" >
+        <div class="chat-body" id="chat-body">
+
+
+
+                {% for chat in chats %}
+            {% if chat.msg_sender == user and chat.msg_receiver == profile %}
+
+            <div class="chat-box-sent">
+                {{chat}}
+            </div>
+
+            {% elif chat.msg_sender == profile and chat.msg_receiver == user %}
+
+            <div class="chat-box-received">
+                {{chat}}
+            </div>
+            {% endif %}
+
+ {% endfor %}
+            <div class="chat-box-sent" id="chat-box-sent" style="display: none">
+
+            </div>
+
+            <form action="" id="myform" method="POST">
+                {% csrf_token %}
+                {{form.body}}
+
+                <button type="submit" id="submit" > Send</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+{% endblock %}

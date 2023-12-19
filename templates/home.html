@@ -15,6 +15,7 @@
                     <div class="container">
                         <div class="row">
 							<div class="col-1">
+								<a href="{% url 'profile' id=post.user.id %}">
 								{% if post.user.profile.profile_image %}
 								<img src="{{ post.user.profile.profile_image.url }}" style="border-radius:50%; width: 70px; height: 70px;
                                               object-fit: cover;"  alt="{{ profile.user.username }}">
@@ -22,6 +23,7 @@
                                 <img src="{% static 'images/default_profile_pic.png' %}"  style="border-radius:50%; width: 70px; height: 70px;
                                               object-fit: cover;" alt="{{ profile.user.username }}">
 								{% endif %}
+									 </a>
 							</div>
 							<div class="col-11">
 								<h3>{{post.title}}</h3>
