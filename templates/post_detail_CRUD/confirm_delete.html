@@ -3,14 +3,14 @@
 {% block content %}
 <div class="alert alert-dark" role="alert">
   <center>
-      <h2>Вы увернны что хотите удалить?</h2>
+      <h2>Are you sure you want to delete?</h2>
   <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    <button class="btn btn-outline-secondary" style="width: 100px; height: 50px; color: black" type="submit">Да</button>
+    <button class="btn btn-outline-secondary" style="width: 100px; height: 50px; color: black" type="submit">Yes</button>
   </form> <br>
      <button class="btn btn-outline-secondary" style="width: 100px; height: 50px;">
 <!--         НЕКОРЕКТНАЯ ССЫЛКА-->
-         <a style="text-decoration: none; color: black" href="/">Нет</a>
+         <a style="text-decoration: none; color: black" href="/">No</a>
      </button>
   </center>
 </div>

@@ -50,14 +50,14 @@ def post_like(request, id):
 
 def post_show(request, id):
     post = get_object_or_404(Posts, id=id)
-    comments = post.comments.all()  # Получаем все комментарии для данного поста
+    comments = post.comments.all()
 
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
             new_comment = form.save(commit=False)
-            new_comment.user = request.user  # Устанавливаем пользователя для комментария
-            new_comment.post = post  # Связываем комментарий с постом
+            new_comment.user = request.user
+            new_comment.post = post
             new_comment.save()
             messages.success(request, "Комментарий успешно добавлен.")
             return redirect('post_show', id=id)
