@@ -16,7 +16,8 @@ class Profile(models.Model):
     profile_bio = models.CharField(max_length=500, null=True)
     friends = models.ManyToManyField('chat.Friend', related_name='my_friends')
 
-
+    def __str__(self):
+        return self.user.username
 
     class Meta:
         verbose_name = 'Аккаунт'

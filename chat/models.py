@@ -10,7 +10,8 @@ from profile_page.models import Profile
 class Friend(models.Model):
     profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
 
-
+    def __str__(self):
+        return self.profile.user.username
 
 
 class ChatMessage(models.Model):
