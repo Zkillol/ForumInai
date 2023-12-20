@@ -33,6 +33,9 @@
          {% if  friend.profile.profile_image %}
 		<img src="{{ friend.profile.profile_image.url }}"  style="border-radius:50%; width: 70px; height: 70px;
                                               object-fit: cover;" >
+	{% else %}
+		<img src="{% static 'images/default_profile_pic.png'%}"  style="border-radius:50%; width: 70px; height: 70px;
+												  object-fit: cover;" alt="{{ friend.profile.user.username }}">
 	{% endif %}
        </div>
                     <div class="name">

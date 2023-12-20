@@ -6,17 +6,14 @@ from profile_page.models import Profile
 
 def chat(request):
     if request.user.is_authenticated:
-    # Assuming user information is stored in the request's user attribute
         user = request.user
 
-    # Check if the user has a profile attribute
         if hasattr(user, 'profile'):
             profile = user.profile
             friends = profile.friends.all()
             context = {'user': user, 'friends': friends}
             return render(request, 'chat/chat.html', context)
         else:
-        # Handle the case where the user doesn't have a profile
             return render(request, 'error_template.html', {'error_message': 'User profile not found'})
     else:
         messages.success(request, ("You Must Be Logged In To View This Page..."))

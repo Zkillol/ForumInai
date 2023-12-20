@@ -3,8 +3,7 @@
 
 {% block content %}
 
-
-        <h3>{{friend.profile.user}}</h3>
+        <h3><a href="{% url 'profile' id=friend.profile.user.id %}" style="text-decoration: none; color:black;"> {{ friend.profile.user.username }} </a></h3>
 
     <div class="pro-pic">
          {% if  friend.profile.profile_image %}
@@ -12,40 +11,31 @@
                                               object-fit: cover;">
         {% endif %}
     </div>
-    </div>
     <div class="sub-container" >
         <div class="chat-body" id="chat-body">
-
-
-
                 {% for chat in chats %}
             {% if chat.msg_sender == user and chat.msg_receiver == profile %}
-
             <div class="chat-box-sent">
-                {{chat}}
+                me : {{chat}}
             </div>
 
             {% elif chat.msg_sender == profile and chat.msg_receiver == user %}
 
             <div class="chat-box-received">
-                {{chat}}
+                {{friend.profile.user}}: {{chat}}
             </div>
             {% endif %}
-
- {% endfor %}
+            {% endfor %}
             <div class="chat-box-sent" id="chat-box-sent" style="display: none">
-
             </div>
-
             <form action="" id="myform" method="POST">
                 {% csrf_token %}
                 {{form.body}}
 
-                <button type="submit" id="submit" > Send</button>
+                <button type="submit" id="submit" class="btn btn-success" > Send</button>
             </form>
         </div>
     </div>
-</div>
 
 
 
