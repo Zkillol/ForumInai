@@ -11,21 +11,23 @@
                                               object-fit: cover;">
         {% endif %}
     </div>
+<br>
     <div class="sub-container" >
         <div class="chat-body" id="chat-body">
                 {% for chat in chats %}
-            {% if chat.msg_sender == user and chat.msg_receiver == profile %}
+            {% if chat.msg_sender == user.profile and chat.msg_receiver == profile %}
             <div class="chat-box-sent">
                 me : {{chat}}
             </div>
 
-            {% elif chat.msg_sender == profile and chat.msg_receiver == user %}
+            {% elif chat.msg_sender == profile and chat.msg_receiver == user.profile %}
 
             <div class="chat-box-received">
                 {{friend.profile.user}}: {{chat}}
             </div>
             {% endif %}
             {% endfor %}
+            <br>
             <div class="chat-box-sent" id="chat-box-sent" style="display: none">
             </div>
             <form action="" id="myform" method="POST">

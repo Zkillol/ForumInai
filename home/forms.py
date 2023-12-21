@@ -10,11 +10,11 @@ class PostForm(ModelForm):
             "title": TextInput(
                 attrs={
                 'class': 'form-control',
-                'placeholder' : 'Введите название'
+                'placeholder' : 'Title'
                 }),
                 'description': Textarea(attrs={
                 'class': 'form-control',
-                 'placeholder': 'Введите описание'
+                 'placeholder': 'Description'
                 }),
         }
         exclude = ("user", "likes",)

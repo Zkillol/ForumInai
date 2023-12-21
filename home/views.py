@@ -59,10 +59,10 @@ def post_show(request, id):
             new_comment.user = request.user
             new_comment.post = post
             new_comment.save()
-            messages.success(request, "Комментарий успешно добавлен.")
+            messages.success(request, "Comment added successfully.")
             return redirect('post_show', id=id)
         else:
-            messages.error(request, "Ошибка при добавлении комментария.")
+            messages.error(request, "Error while adding a comment.")
     else:
         form = CommentForm()
 

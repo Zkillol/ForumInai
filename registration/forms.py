@@ -11,11 +11,10 @@ class UserCreationForm(UserCreationForm):
         label = ('Email'),
         max_length = 254,
         widget = forms.EmailInput(attrs={'autocomplete': 'email'}) ,
-        help_text=''
     )
-    username = forms.CharField(label='Username', help_text='')
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput, help_text='')
-    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput, help_text='')
+    username = forms.CharField(label='Username')
+    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
 
     class Meta(UserCreationForm.Meta):
         model = User

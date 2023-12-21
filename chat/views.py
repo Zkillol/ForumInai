@@ -24,7 +24,7 @@ def chat_view(request ,pk):
     if request.user.is_authenticated:
 
         friend = Friend.objects.get(profile_id=pk)
-        user = request.user.profile
+        user = request.user
         profile = Profile.objects.get(id=friend.profile.id)
         chats = ChatMessage.objects.all()
         form = ChatMessageForm()
@@ -32,10 +32,11 @@ def chat_view(request ,pk):
             form = ChatMessageForm(request.POST)
             if form.is_valid():
                 chat_message = form.save(commit=False)
-                chat_message.msg_sender = user
+                chat_message.msg_sender = user.profile
                 chat_message.msg_receiver = profile
                 chat_message.save()
                 return redirect('chat_view' , pk=friend.profile.id)
+        # print(user.is)
         context = {'friend' : friend , 'form': form , 'user': user , 'profile': profile , 'chats' : chats}
         return render(request , 'chat/chat_view.html', context)
     else:
